@@ -42,5 +42,14 @@
             android:layout_marginTop="@dimen/_85sdp"
             android:layout_marginLeft="@dimen/_20sdp"/>
         </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:tint="@android:color/white"/>
     </FrameLayout>
 </LinearLayout>

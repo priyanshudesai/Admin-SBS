@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
+        Intent i = new Intent(LoginActivity.this, Navigation_Activity.class);
+        startActivity(i);
         String n=no.getText().toString();
         String p=pass.getText().toString();
         Api api = ApiClient.getClient().create(Api.class);
