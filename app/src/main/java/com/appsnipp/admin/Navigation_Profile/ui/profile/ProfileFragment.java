@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,11 +31,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsnipp.admin.BuildConfig;
+import com.appsnipp.admin.LoginActivity;
 import com.appsnipp.admin.R;
+import com.appsnipp.admin.apiinterface.responce_get_set.User;
 import com.appsnipp.admin.camera.FileCompressor;
 import com.appsnipp.admin.profile.forgetpassword;
 import com.appsnipp.admin.profile.personaldetails;
 import com.appsnipp.admin.profile.professionaldetails;
+import com.appsnipp.admin.storage.sareprefrencelogin;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.karumi.dexter.Dexter;
@@ -57,7 +61,7 @@ public class ProfileFragment extends Fragment implements TabLayout.OnTabSelected
     FragmentManager manager;
     Fragment fragment;
     AlertDialog.Builder builder;
-
+TextView name,mob;
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_GALLERY_PHOTO = 2;
@@ -79,6 +83,23 @@ public class ProfileFragment extends Fragment implements TabLayout.OnTabSelected
         mCompressor = new FileCompressor(getContext());
         viewPager = root.findViewById(R.id.tablayout_viewpager);
         manager = getActivity().getSupportFragmentManager();
+        name=(TextView) root.findViewById(R.id.admin_name);
+        mob=(TextView) root.findViewById(R.id.admin_mob);
+
+
+        mob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sareprefrencelogin.getInstance(getContext()).clear();
+                Intent i=new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
+            }
+        });
+
+
+
+
 
         viewPager.setAdapter(new ProfileFragment.adapter(manager));
         viewPager.setOffscreenPageLimit(3);
@@ -135,6 +156,14 @@ public class ProfileFragment extends Fragment implements TabLayout.OnTabSelected
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        User user= sareprefrencelogin.getInstance(getContext()).getuser();
+        String s=user.getFname()+" "+user.getLname();
+        name.setText(s);
+        mob.setText(user.getMobno());
+    }
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

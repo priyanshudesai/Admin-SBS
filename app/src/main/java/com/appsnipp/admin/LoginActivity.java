@@ -12,8 +12,10 @@ import com.appsnipp.admin.Navigation_Profile.Navigation_Activity;
 import com.appsnipp.admin.apiinterface.Api;
 import com.appsnipp.admin.apiinterface.ApiClient;
 import com.appsnipp.admin.apiinterface.CommanResponse;
+import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.registration.Forgotpassword_form;
 import com.appsnipp.admin.registration.Registration;
+import com.appsnipp.admin.storage.sareprefrencelogin;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         pass=(EditText) findViewById(R.id.password);
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(sareprefrencelogin.getInstance(this).islogin())
+        {
+            Intent i = new Intent(LoginActivity.this, Navigation_Activity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
 
+    }
 
     public void viewForgotPAssword(View view) {
         Intent i = new Intent(LoginActivity.this, Forgotpassword_form.class);
@@ -49,16 +61,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        Intent i = new Intent(LoginActivity.this, Navigation_Activity.class);
-        startActivity(i);
+
+
         String n=no.getText().toString();
         String p=pass.getText().toString();
         Api api = ApiClient.getClient().create(Api.class);
-        Call<CommanResponse> call=api.login("loginmember",n,p);
-        call.enqueue(new Callback<CommanResponse>() {
+        Call<loginresponce> call=api.login("loginmember",n,p);
+        call.enqueue(new Callback<loginresponce>() {
             @Override
-            public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
+            public void onResponse(Call<loginresponce> call, Response<loginresponce> response) {
                 if (response.body().getSuccess()==405) {
+                    loginresponce loginresponce=response.body();
+                    sareprefrencelogin.getInstance(LoginActivity.this).saveuser(loginresponce.getUser());
                     Intent i = new Intent(LoginActivity.this, Navigation_Activity.class);
                     startActivity(i);
                     Toast.makeText(LoginActivity.this, response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
@@ -70,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CommanResponse> call, Throwable t) {
+            public void onFailure(Call<loginresponce> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
             }
         });

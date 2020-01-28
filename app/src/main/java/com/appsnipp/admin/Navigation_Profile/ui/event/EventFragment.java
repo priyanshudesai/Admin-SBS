@@ -1,8 +1,11 @@
 package com.appsnipp.admin.Navigation_Profile.ui.event;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +22,8 @@ import java.util.List;
 
 public class EventFragment extends Fragment {
     RecyclerView recyclerView;
+    FloatingActionButton f;
+    AlertDialog.Builder builder;
     List<event_data> li;
     private EventViewModel eventViewModel;
 
@@ -42,6 +47,22 @@ public class EventFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         event_adapter ev=new event_adapter(li);
         recyclerView.setAdapter(ev);
+
+
+        f=(FloatingActionButton) root.findViewById(R.id.fab_event);
+        f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder= new AlertDialog.Builder(getContext());
+                LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v=inflater.inflate(R.layout.activity_event_form,null);
+                builder.setView(v);
+
+                builder.setCancelable(true);
+                AlertDialog alert=builder.create();
+                alert.show();
+            }
+        });
         return root;
     }
 }

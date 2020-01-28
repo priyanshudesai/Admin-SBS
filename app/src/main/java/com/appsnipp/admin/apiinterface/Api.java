@@ -1,5 +1,7 @@
 package com.appsnipp.admin.apiinterface;
 
+import com.appsnipp.admin.apiinterface.responce.loginresponce;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -24,7 +26,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("loginapi.php")
-    Call<CommanResponse> login(
+    Call<loginresponce> login(
 
             @Field("loginmember") String loginmember,
             @Field("mobno") String mobno,
