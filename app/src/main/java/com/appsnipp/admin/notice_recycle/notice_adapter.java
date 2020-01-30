@@ -83,8 +83,8 @@ public class notice_adapter extends RecyclerView.Adapter<notice_adapter.ViewHold
 
     @Override
     public int getItemCount() {
-       /// return notice_data.size();
-        return notice_data == null ? 0 : notice_data.size();
+      return notice_data.size();
+        //return notice_data == null ? 0 : notice_data.size();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
