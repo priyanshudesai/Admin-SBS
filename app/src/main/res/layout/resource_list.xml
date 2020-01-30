@@ -52,7 +52,7 @@
                             <ImageView
                                 android:id="@+id/res_img"
                                 android:layout_width="82dp"
-
+android:src="@drawable/club"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="-10dp"
@@ -76,7 +76,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
-                                android:text="Flat No: "
+                                android:text="Capacity"
 
                                 android:textSize="13sp"
                                 />
@@ -99,7 +99,7 @@ android:id="@+id/flat_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
-                                android:text="Name: "
+                                android:text="Charge "
 
                                 android:textSize="13sp"
                                 />
