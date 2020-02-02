@@ -37,6 +37,7 @@ import com.appsnipp.admin.visitior_recy.visitior_adapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -88,6 +89,7 @@ public class NoticeBoardFragment extends Fragment {
             @Override
             public void onResponse(Call<notice_responce> call, Response<notice_responce> response) {
                 li=response.body().getDe();
+                Collections.reverse(li);
                 ada=new notice_adapter(getContext(),li);
                 recyclerView.setAdapter(ada);
             }

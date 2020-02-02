@@ -35,6 +35,7 @@ import com.appsnipp.admin.event_recycle_view.event_data;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -78,6 +79,7 @@ public class EventFragment extends Fragment {
             @Override
             public void onResponse(Call<event_responce> call, Response<event_responce> response) {
                 li=response.body().getDe();
+                Collections.reverse(li);
                ev=new event_adapter(getContext(),li);
                 recyclerView.setAdapter(ev);
             }

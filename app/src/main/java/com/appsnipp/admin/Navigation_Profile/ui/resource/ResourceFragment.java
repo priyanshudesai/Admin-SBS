@@ -29,6 +29,7 @@ import com.appsnipp.admin.resource_list.resource_adapter;
 import com.appsnipp.admin.resource_list.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,6 +82,7 @@ public class ResourceFragment extends Fragment {
             @Override
             public void onResponse(Call<resource_responce> call, Response<resource_responce> response) {
                 li=response.body().getDe();
+                Collections.reverse(li);
                 ev=new resource_adapter(getContext(),li);
                 recyclerView.setAdapter(ev);
             }

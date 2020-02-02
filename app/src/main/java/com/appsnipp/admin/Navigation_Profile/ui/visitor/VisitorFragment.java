@@ -24,6 +24,7 @@ import com.appsnipp.admin.visitior_recy.visitior_adapter;
 import com.appsnipp.admin.visitior_recy.visitior_data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +61,7 @@ public class VisitorFragment extends Fragment {
             @Override
             public void onResponse(Call<visidetail_responce> call, Response<visidetail_responce> response) {
                 li=response.body().getDe();
+                Collections.reverse(li);
                 vi=new visitior_adapter(getContext(),li);
                 recyclerView.setAdapter(vi);
             }
