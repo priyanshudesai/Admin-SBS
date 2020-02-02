@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.SmsManager;
@@ -22,15 +24,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.appsnipp.admin.LoginActivity;
+import com.appsnipp.admin.Navigation_Profile.Navigation_Activity;
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.apiinterface.Api;
 import com.appsnipp.admin.apiinterface.ApiClient;
 import com.appsnipp.admin.apiinterface.CommanResponse;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
+import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.apiinterface.responce.visidetail_responce;
 import com.appsnipp.admin.apiinterface.responce_get_set.event_get_set;
 import com.appsnipp.admin.event_recycle_view.event_adapter;
 import com.appsnipp.admin.event_recycle_view.event_data;
+import com.appsnipp.admin.storage.sareprefrencelogin;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +54,7 @@ public class EventFragment extends Fragment {
     RecyclerView recyclerView;
     FloatingActionButton f;
     event_adapter ev;
+    SwipeRefreshLayout swipe;
     AlertDialog.Builder builder;
     List<event_get_set> li;
     EditText etf_name,etf_place,etf_member,etf_date,etf_time;
@@ -61,6 +68,14 @@ public class EventFragment extends Fragment {
                 ViewModelProviders.of(this).get(EventViewModel.class);
         View root = inflater.inflate(R.layout.fragment_event, container, false);
         recyclerView=(RecyclerView) root.findViewById(R.id.event_recycle);
+        swipe=(SwipeRefreshLayout) root.findViewById(R.id.swipe_event);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadevent();
+                swipe.setRefreshing(false);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        li=new ArrayList<>();
 //        event_data data[] ={new event_data("diwali","party plot","5 member","23/04/2019","2:45 pm")
@@ -73,24 +88,7 @@ public class EventFragment extends Fragment {
 //        for(int i=0;i< data.length;i++){
 //            li.add(data[i]);
 //        }
-        Api api= ApiClient.getClient().create(Api.class);
-        Call<event_responce> call= api.eventdetail("eventdetail");
-        call.enqueue(new Callback<event_responce>() {
-            @Override
-            public void onResponse(Call<event_responce> call, Response<event_responce> response) {
-                li=response.body().getDe();
-                Collections.reverse(li);
-               ev=new event_adapter(getContext(),li);
-                recyclerView.setAdapter(ev);
-            }
-
-            @Override
-            public void onFailure(Call<event_responce> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        loadevent();
 
 
         f=(FloatingActionButton) root.findViewById(R.id.fab_event);
@@ -242,5 +240,35 @@ public class EventFragment extends Fragment {
             }
         });
         return root;
+    }
+    public void loadevent()
+    {
+        Api api= ApiClient.getClient().create(Api.class);
+        Call<event_responce> call= api.eventdetail("eventdetail");
+        call.enqueue(new Callback<event_responce>() {
+            @Override
+            public void onResponse(Call<event_responce> call, Response<event_responce> response) {
+                if (response.body().getSuccess()==200) {
+                    li=response.body().getDe();
+                    Collections.reverse(li);
+                    ev=new event_adapter(getContext(),li);
+
+                    recyclerView.setAdapter(ev);
+                }
+                else {
+                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<event_responce> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
     }
 }

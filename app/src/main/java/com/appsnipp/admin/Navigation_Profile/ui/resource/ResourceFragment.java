@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.appsnipp.admin.apiinterface.responce.resource_responce;
 import com.appsnipp.admin.apiinterface.responce_get_set.resource_get_set;
 import com.appsnipp.admin.resource_list.resource_adapter;
 import com.appsnipp.admin.resource_list.data;
+import com.appsnipp.admin.visitior_recy.visitior_adapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +42,7 @@ public class ResourceFragment extends Fragment {
 
     RecyclerView recyclerView;
     resource_adapter ev;
+    SwipeRefreshLayout swipe;
     List<resource_get_set> li;
     FloatingActionButton f;
     AlertDialog.Builder builder;
@@ -61,6 +64,14 @@ public class ResourceFragment extends Fragment {
             }
         });
         recyclerView=(RecyclerView) root.findViewById(R.id.list_res);
+        swipe=(SwipeRefreshLayout) root.findViewById(R.id.swipe_resource);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadresource();
+                swipe.setRefreshing(false);
+            }
+        });
 //        li=new ArrayList<>();
 //        data azad[]={new data("b-101","club","kausahl","kausahl jethava",R.drawable.club),new data("b-102","club","kaushik","kausahik mokariya",R.drawable.club)
 //                ,new data("b-102","club","priyanshu","priyanshu desai",R.drawable.club)
@@ -76,22 +87,8 @@ public class ResourceFragment extends Fragment {
 //
 //        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Api api= ApiClient.getClient().create(Api.class);
-        Call<resource_responce> call= api.resourcedetail("resourcedetail");
-        call.enqueue(new Callback<resource_responce>() {
-            @Override
-            public void onResponse(Call<resource_responce> call, Response<resource_responce> response) {
-                li=response.body().getDe();
-                Collections.reverse(li);
-                ev=new resource_adapter(getContext(),li);
-                recyclerView.setAdapter(ev);
-            }
+        loadresource();
 
-            @Override
-            public void onFailure(Call<resource_responce> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 f=(FloatingActionButton) root.findViewById(R.id.fab_res);
         f.setOnClickListener(new View.OnClickListener() {
@@ -149,5 +146,35 @@ f=(FloatingActionButton) root.findViewById(R.id.fab_res);
         });
 
         return root;
+    }
+    public void loadresource()
+    {
+        Api api= ApiClient.getClient().create(Api.class);
+        Call<resource_responce> call= api.resourcedetail("resourcedetail");
+        call.enqueue(new Callback<resource_responce>() {
+            @Override
+            public void onResponse(Call<resource_responce> call, Response<resource_responce> response) {
+                if (response.body().getSuccess()==200) {
+                    li=response.body().getDe();
+                    Collections.reverse(li);
+                    ev=new resource_adapter(getContext(),li);
+                    recyclerView.setAdapter(ev);
+                }
+                else {
+                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<resource_responce> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

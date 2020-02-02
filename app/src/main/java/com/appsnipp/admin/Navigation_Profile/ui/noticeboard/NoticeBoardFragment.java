@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import com.appsnipp.admin.apiinterface.responce_get_set.notice_get_set;
 import com.appsnipp.admin.event_recycle_view.event_data;
 import com.appsnipp.admin.notice_recycle.notice_adapter;
 import com.appsnipp.admin.notice_recycle.notice_data;
+import com.appsnipp.admin.resource_list.resource_adapter;
 import com.appsnipp.admin.storage.sareprefrencelogin;
 import com.appsnipp.admin.visitior_recy.visitior_adapter;
 
@@ -53,6 +55,7 @@ public class NoticeBoardFragment extends Fragment {
     AlertDialog.Builder builder;
     EditText ntf_head,ntf_desc;
     Button Sv;
+    SwipeRefreshLayout swipe;
     notice_adapter ada;
     String ntfs_head,ntfs_desc;
     private NoticeBoardViewModel noticeBoardViewModel;
@@ -82,23 +85,16 @@ public class NoticeBoardFragment extends Fragment {
 //                li.add(data2[i]);
 //            }
         recyclerView=(RecyclerView) root.findViewById(R.id.noticerecycle);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Api api=ApiClient.getClient().create(Api.class);
-        Call<notice_responce> call=api.noticedetail("noticedetail");
-        call.enqueue(new Callback<notice_responce>() {
+        swipe=(SwipeRefreshLayout) root.findViewById(R.id.swipe_notice);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onResponse(Call<notice_responce> call, Response<notice_responce> response) {
-                li=response.body().getDe();
-                Collections.reverse(li);
-                ada=new notice_adapter(getContext(),li);
-                recyclerView.setAdapter(ada);
-            }
-
-            @Override
-            public void onFailure(Call<notice_responce> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+            public void onRefresh() {
+                loadnotice();
+                swipe.setRefreshing(false);
             }
         });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+       loadnotice();
 
 
         f=(FloatingActionButton) root.findViewById(R.id.fab_notice);
@@ -164,4 +160,35 @@ public class NoticeBoardFragment extends Fragment {
         recyclerView.getAdapter().notifyDataSetChanged();
         recyclerView.scheduleLayoutAnimation();
     }
+    public void loadnotice()
+    {
+        Api api=ApiClient.getClient().create(Api.class);
+        Call<notice_responce> call=api.noticedetail("noticedetail");
+        call.enqueue(new Callback<notice_responce>() {
+            @Override
+            public void onResponse(Call<notice_responce> call, Response<notice_responce> response) {
+                if (response.body().getSuccess()==200) {
+
+                    li=response.body().getDe();
+                    Collections.reverse(li);
+                    ada=new notice_adapter(getContext(),li);
+                    recyclerView.setAdapter(ada);
+                }
+                else {
+                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<notice_responce> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 }
