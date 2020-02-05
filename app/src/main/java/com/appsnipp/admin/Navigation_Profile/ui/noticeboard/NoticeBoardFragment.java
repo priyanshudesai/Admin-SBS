@@ -97,8 +97,7 @@ public class NoticeBoardFragment extends Fragment {
                     @Override public void run() {
                         loadnotice();
                         swipe.setRefreshing(false);
-                        LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_anmimation_fall_down);
-                        recyclerView.setLayoutAnimation(layoutAnimationController);
+
                     }
                 }, 2000);
                 //swipe.setRefreshing(false);
@@ -184,6 +183,8 @@ public class NoticeBoardFragment extends Fragment {
                     Collections.reverse(li);
                     ada=new notice_adapter(getContext(),li);
                     recyclerView.setAdapter(ada);
+                    LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_anmimation_fall_down);
+                    recyclerView.setLayoutAnimation(layoutAnimationController);
                 }
                 else {
                     Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
