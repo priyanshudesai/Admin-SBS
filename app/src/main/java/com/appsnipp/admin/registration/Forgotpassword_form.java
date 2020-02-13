@@ -95,6 +95,11 @@ public class Forgotpassword_form extends AppCompatActivity implements TextWatche
                             Intent i = new Intent(Forgotpassword_form.this, password.class);
                             startActivity(i);
                         }
+else
+                        {
+                            Toast.makeText(Forgotpassword_form.this, "otp not match", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 });
     }
