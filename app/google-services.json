@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "93228107227",
+    "firebase_url": "https://sbsadmin-d58fb.firebaseio.com",
+    "project_id": "sbsadmin-d58fb",
+    "storage_bucket": "sbsadmin-d58fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93228107227:android:a855dcab95f19bc905d3fe",
+        "android_client_info": {
+          "package_name": "com.appsnipp.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93228107227-g3gk5ed2ul8ijv6ado9uvecaisjoqj4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appsnipp.admin",
+            "certificate_hash": "73161bd8a98f6d3875375cae5c87f79ba235c08f"
+          }
+        },
+        {
+          "client_id": "93228107227-56vj332iaa1k4hoj6m0ph1s6j0vo45v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjh-8pWklVNs6Ejf2oXvYrzztyobDyuBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93228107227-56vj332iaa1k4hoj6m0ph1s6j0vo45v2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
