@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.appsnipp.admin.LoginActivity;
 import com.appsnipp.admin.R;
+import com.appsnipp.admin.apiinterface.Api;
+import com.appsnipp.admin.apiinterface.ApiClient;
+import com.appsnipp.admin.apiinterface.CommanResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -20,6 +23,10 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Forgotpassword_form extends AppCompatActivity {
     EditText mono;
@@ -41,9 +48,31 @@ public class Forgotpassword_form extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(Forgotpassword_form.this, Forgetpassword_otp.class);
-                intent.putExtra("mobile", mobile);
-                startActivity(intent);
+                Api api = ApiClient.getClient().create(Api.class);
+                Call<CommanResponse> call = api.mobnoex("passmobnoex", mobile);
+                call.enqueue(new Callback<CommanResponse>() {
+                    @Override
+                    public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
+                        if (response.body().getSuccess()==200) {
+                            Intent intent = new Intent(Forgotpassword_form.this, Forgetpassword_otp.class);
+                            intent.putExtra("mobile", mobile);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(Forgotpassword_form.this, response.body().getMessage() + "", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CommanResponse> call, Throwable t) {
+                        Toast.makeText(Forgotpassword_form.this, t.getLocalizedMessage() + "", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
             }
         });
 //        mcallback= new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -89,6 +118,7 @@ public class Forgotpassword_form extends AppCompatActivity {
 //                    }
 //                });
     }
+
 
     public void loginback2(View view) {
         Intent i = new Intent(Forgotpassword_form.this, LoginActivity.class);

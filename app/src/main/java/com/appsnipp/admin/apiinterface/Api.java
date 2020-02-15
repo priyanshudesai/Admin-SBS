@@ -115,4 +115,13 @@ public interface Api {
             @Field("password") String password
 
     );
+
+
+    @FormUrlEncoded
+    @POST("forgrtpass.php")
+    Call<CommanResponse> mobnoex(
+            @Field("passmobnoex") String passmobnoex,
+            @Field("mobno") String mobno
+
+    );
 }
