@@ -44,7 +44,7 @@
             android:name=".registration.Registration"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Otpverification.password"
+            android:name=".registration.password"
             android:screenOrientation="portrait" />
         <activity
             android:name=".detailtest_activity"

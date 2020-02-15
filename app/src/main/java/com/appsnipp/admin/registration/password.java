@@ -1,4 +1,4 @@
-package com.appsnipp.admin.Otpverification;
+package com.appsnipp.admin.registration;
 
 import android.content.Intent;
 import android.os.Bundle;

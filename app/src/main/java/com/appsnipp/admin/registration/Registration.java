@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.appsnipp.admin.BuildConfig;
-import com.appsnipp.admin.Otpverification.password;
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.camera.FileCompressor;
 import com.bumptech.glide.Glide;

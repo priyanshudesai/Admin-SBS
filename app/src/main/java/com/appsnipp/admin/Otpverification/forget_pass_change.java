@@ -1,4 +1,4 @@
-package com.appsnipp.admin.registration;
+package com.appsnipp.admin.Otpverification;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.appsnipp.admin.LoginActivity;
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.apiinterface.Api;
 import com.appsnipp.admin.apiinterface.ApiClient;
@@ -28,8 +29,20 @@ public class forget_pass_change extends AppCompatActivity {
 //        tosttext1=(TextView) findViewById(R.id.toasttext);
     }
 
-    public void regiback(View view) {
+    @Override
+    public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(forget_pass_change.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
+    }
+
+    public void regiback(View view) {
+        //super.onBackPressed();
+        Intent intent = new Intent(forget_pass_change.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
 
     }
 
@@ -61,17 +74,26 @@ public class forget_pass_change extends AppCompatActivity {
             Intent i1 = getIntent();
             String mob = i1.getStringExtra("mob");
             Api api = ApiClient.getClient().create(Api.class);
-            Call<CommanResponse> call=api.changepass("changepass",mob,s1);
+            Call<CommanResponse> call = api.changepass("changepass", mob, s1);
             call.enqueue(new Callback<CommanResponse>() {
                 @Override
                 public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
-                    Toast.makeText(forget_pass_change.this, response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                    if (response.body().getSuccess()==200) {
+                        Toast.makeText(forget_pass_change.this, response.body().getMessage() + "", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(forget_pass_change.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(forget_pass_change.this, response.body().getMessage() + "", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
                 @Override
                 public void onFailure(Call<CommanResponse> call, Throwable t) {
-                    Toast.makeText(forget_pass_change.this, t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(forget_pass_change.this, t.getLocalizedMessage() + "", Toast.LENGTH_SHORT).show();
 
                 }
             });

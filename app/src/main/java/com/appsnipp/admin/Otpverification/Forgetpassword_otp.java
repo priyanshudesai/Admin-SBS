@@ -2,7 +2,6 @@ package com.appsnipp.admin.Otpverification;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.appsnipp.admin.R;
+import com.appsnipp.admin.registration.password;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -24,12 +24,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Forgetpassword_otp extends AppCompatActivity {
 
+
     private String mVerificationId;
-
-    //The edittext to input the code
     private EditText editTextCode;
-
-    //firebase auth object
+    String mobile;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,15 +38,11 @@ public class Forgetpassword_otp extends AppCompatActivity {
         editTextCode = findViewById(R.id.editTextCode);
 
 
-        //getting mobile number from the previous activity
-        //and sending the verification code to the number
         Intent intent = getIntent();
-        String mobile = intent.getStringExtra("mobile");
+        mobile= intent.getStringExtra("mobile");
         sendVerificationCode(mobile);
 
 
-        //if the automatic sms detection did not work, user can also enter the code manually
-        //so adding a click listener to the button
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +50,15 @@ public class Forgetpassword_otp extends AppCompatActivity {
                 if (code.isEmpty() || code.length() < 6) {
                     editTextCode.setError("Enter valid code");
                     editTextCode.requestFocus();
-                }else
-                    verifyVerificationCode(code);
+                    return;
+                }
+
+//                Intent intent = new Intent(Forgetpassword_otp.this, forget_pass_change.class);
+//                intent.putExtra("mob", mobile);
+//                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//                finish();
+                verifyVerificationCode(code);
             }
         });
 
@@ -125,13 +126,13 @@ public class Forgetpassword_otp extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(Forgetpassword_otp.this, "OTP Match", Toast.LENGTH_SHORT).show();
                             //verification successful we will start the profile activity
-                            Intent intent = new Intent(Forgetpassword_otp.this, password.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            Intent intent = new Intent(Forgetpassword_otp.this, forget_pass_change.class);
+                            intent.putExtra("mob",mobile);
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+                            finish();
 
                         } else {
-
-                            //verification unsuccessful.. display an error message
 
                             String message = "Somthing is wrong, we will fix it soon...";
 

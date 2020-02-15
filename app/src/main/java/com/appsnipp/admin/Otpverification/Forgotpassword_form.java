@@ -21,25 +21,14 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class Forgotpassword_form extends AppCompatActivity
-//        implements TextWatcher
-{
+public class Forgotpassword_form extends AppCompatActivity {
     EditText mono;
-   // FirebaseAuth auth;
-   // PhoneAuthProvider.OnVerificationStateChangedCallbacks mcallback;
-   // String veri_code;
-//TextView tosttext1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgotpasword_activity);
         mono = (EditText) findViewById(R.id.forgot_mobile_ed);
-        //      e1.addTextChangedListener(this);
-//       tosttext1=(TextView) findViewById(R.id.toasttext);
         mono.requestFocus();
-        //   auth= FirebaseAuth.getInstance();
-
 
         findViewById(R.id.forget_mob_sendotp).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +91,7 @@ public class Forgotpassword_form extends AppCompatActivity
     }
 
     public void loginback2(View view) {
-        Intent i=new Intent(Forgotpassword_form.this, LoginActivity.class);
+        Intent i = new Intent(Forgotpassword_form.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
@@ -143,7 +132,7 @@ public class Forgotpassword_form extends AppCompatActivity
 //    }
 
     public void regiback(View view) {
-        Intent i=new Intent(Forgotpassword_form.this,LoginActivity.class);
+        Intent i = new Intent(Forgotpassword_form.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
