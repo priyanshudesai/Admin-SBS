@@ -11,16 +11,19 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.accout_fragment.bill_details;
 import com.appsnipp.admin.accout_fragment.maintence_details;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 public class AccountFragment extends Fragment implements TabLayout.OnTabSelectedListener {
     TabLayout tabLayout;
     ViewPager viewPager;
     FragmentManager manager;
     Fragment fragment;
+    FloatingActionButton fb1,fb2;
 
     private AccountViewModel accountViewModel;
 
@@ -29,6 +32,24 @@ public class AccountFragment extends Fragment implements TabLayout.OnTabSelected
         accountViewModel =
                 ViewModelProviders.of(this).get(AccountViewModel.class);
         View root = inflater.inflate(R.layout.fragment_account, container, false);
+        fb1 = root.findViewById(R.id.fab_acc_bill);
+        fb2= root.findViewById(R.id.fab_acc_main);
+        fb1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "bill", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fb2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "account", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
         tabLayout = root.findViewById(R.id.accout_tablayout);
 
         viewPager = root.findViewById(R.id.tablayout_account_viewpager);

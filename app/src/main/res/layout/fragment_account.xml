@@ -17,6 +17,8 @@
             android:src="@drawable/header" />
 
 
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,15 +29,36 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/fab_account"
+            android:elevation="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_50sdp"
             app:srcCompat="@android:drawable/ic_input_add"
-            android:tint="@android:color/white"/>
+            android:tint="@android:color/white">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_acc_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_size="mini"
+                app:fab_icon="@android:drawable/ic_input_add"
+                app:fab_title="Add Maintainance Details"
+
+                />
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_acc_bill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_size="mini"
+                app:fab_icon="@android:drawable/ic_input_add"
+                app:fab_title="Add Bill Details"
+                />
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/accout_tablayout"
             android:layout_width="@dimen/_250sdp"

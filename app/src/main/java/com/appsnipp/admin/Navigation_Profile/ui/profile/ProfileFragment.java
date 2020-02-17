@@ -55,14 +55,14 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment implements TabLayout.OnTabSelectedListener {
+public class ProfileFragment extends Fragment{
     TabLayout tabLayout;
     ViewPager viewPager;
     FragmentManager manager;
     Fragment fragment;
     AlertDialog.Builder builder;
-TextView name,mob;
 
+    TextView name,mob;
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_GALLERY_PHOTO = 2;
     File mPhotoFile;
@@ -79,15 +79,15 @@ TextView name,mob;
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        tabLayout = root.findViewById(R.id.tablayout_tl);
+        //  tabLayout = root.findViewById(R.id.tablayout_tl);
         mCompressor = new FileCompressor(getContext());
-        viewPager = root.findViewById(R.id.tablayout_viewpager);
+        //  viewPager = root.findViewById(R.id.tablayout_viewpager);
         manager = getActivity().getSupportFragmentManager();
-        name=(TextView) root.findViewById(R.id.admin_name);
-        mob=(TextView) root.findViewById(R.id.admin_mob);
+        name=(TextView) root.findViewById(R.id.user_name);
+        mob=(TextView) root.findViewById(R.id.user_mob);
 
 
-        mob.setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.exit_pro).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sareprefrencelogin.getInstance(getContext()).clear();
@@ -97,14 +97,29 @@ TextView name,mob;
             }
         });
 
+        root.findViewById(R.id.changepass_pro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder= new AlertDialog.Builder(getContext());
+                LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v=inflater.inflate(R.layout.fragment_forgetpassword,null);
+                builder.setView(v);
+                builder.setCancelable(true);
+                AlertDialog alert=builder.create();
+
+                //alert.dismiss();
+                alert.show();
+
+            }
+        });
 
 
 
 
-        viewPager.setAdapter(new ProfileFragment.adapter(manager));
-        viewPager.setOffscreenPageLimit(3);
-        tabLayout.addOnTabSelectedListener(this);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        viewPager.setAdapter(new ProfileFragment.adapter(manager));
+//        viewPager.setOffscreenPageLimit(3);
+//        tabLayout.addOnTabSelectedListener(this);
+//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         img = root.findViewById(R.id.pre_dp);
 
@@ -152,9 +167,43 @@ TextView name,mob;
         });
 
 
+
+        root.findViewById(R.id.personal_pro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder= new AlertDialog.Builder(getContext());
+                LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v=inflater.inflate(R.layout.fragment_personaldetails,null);
+                builder.setView(v);
+                builder.setCancelable(true);
+                AlertDialog alert=builder.create();
+
+                //alert.dismiss();
+                alert.show();
+            }
+        });
+
+
+        root.findViewById(R.id.professional_pro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder= new AlertDialog.Builder(getContext());
+                LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v=inflater.inflate(R.layout.fragment_professionaldetails,null);
+                builder.setView(v);
+                builder.setCancelable(true);
+                AlertDialog alert=builder.create();
+
+                //alert.dismiss();
+                alert.show();
+            }
+        });
+
+
         return root;
 
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -165,58 +214,58 @@ TextView name,mob;
         mob.setText(user.getMobno());
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
-
-
-    public class adapter extends FragmentStatePagerAdapter {
-
-        public adapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            fragment = null;
-            if (position == 0) {
-
-                fragment = new personaldetails();
-
-            }
-            if (position == 1) {
-
-                fragment = new professionaldetails();
-
-            }
-            if (position == 2) {
-
-                fragment = new forgetpassword();
-
-            }
-
-
-            return fragment;
-
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-    }
+//    @Override
+//    public void onTabSelected(TabLayout.Tab tab) {
+//        viewPager.setCurrentItem(tab.getPosition());
+//
+//    }
+//
+//    @Override
+//    public void onTabUnselected(TabLayout.Tab tab) {
+//
+//    }
+//
+//    @Override
+//    public void onTabReselected(TabLayout.Tab tab) {
+//
+//    }
+//
+//
+//    public class adapter extends FragmentStatePagerAdapter {
+//
+//        public adapter(FragmentManager fm) {
+//            super(fm);
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//            fragment = null;
+//            if (position == 0) {
+//
+//                fragment = new personaldetails();
+//
+//            }
+//            if (position == 1) {
+//
+//                fragment = new professionaldetails();
+//
+//            }
+//            if (position == 2) {
+//
+//                fragment = new forgetpassword();
+//
+//            }
+//
+//
+//            return fragment;
+//
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return 3;
+//        }
+//    }
 
     private void selectImage() {
         final CharSequence[] items = {
@@ -402,4 +451,5 @@ TextView name,mob;
             }
         }
     }
+
 }

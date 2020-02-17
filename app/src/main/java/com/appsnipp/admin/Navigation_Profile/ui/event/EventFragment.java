@@ -218,7 +218,10 @@ public class EventFragment extends Fragment {
                         etfs_date=etf_date.getText().toString().trim();
                         etfs_time=etf_time.getText().toString().trim();
 
-
+                        if(etfs_name.isEmpty()||etfs_place.isEmpty()||etfs_member.isEmpty()||etfs_date.isEmpty()||etfs_time.isEmpty()){
+                            Toast.makeText(getContext(), "Please Enter All Details", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
 
 

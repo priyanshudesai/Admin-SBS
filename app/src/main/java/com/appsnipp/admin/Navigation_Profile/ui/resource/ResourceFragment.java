@@ -128,6 +128,11 @@ f=(FloatingActionButton) root.findViewById(R.id.fab_res);
                         resfs_detail=resf_detail.getText().toString().trim();
 
 
+                        if(resfs_name.isEmpty()||resfs_capacity.isEmpty()||resfs_charge.isEmpty()||resfs_detail.isEmpty()){
+                            Toast.makeText(getContext(), "Please Enter All Details", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         Api api = ApiClient.getClient().create(Api.class);
                         Call<CommanResponse> call=api.resourceentry("resourceentry",resfs_name,resfs_capacity,resfs_charge,resfs_detail);
 

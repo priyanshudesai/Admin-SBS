@@ -128,7 +128,14 @@ public class NoticeBoardFragment extends Fragment {
                         ntfs_desc=ntf_desc.getText().toString().trim();
                         User user= sareprefrencelogin.getInstance(getContext()).getuser();
                         String name=user.getFname()+" "+user.getLname();
-                        String s =new SimpleDateFormat("DD-MM-yyyy hh:mm a", Locale.US).format(new Date());
+                        String s =new SimpleDateFormat("dd-MM-yyyy hh:mm a", Locale.US).format(new Date());
+
+                        if(ntfs_head.isEmpty()||ntfs_desc.isEmpty()){
+                            Toast.makeText(getContext(), "Please Enter All Details", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+
 
 
                         Api api = ApiClient.getClient().create(Api.class);
