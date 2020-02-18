@@ -1,10 +1,13 @@
 package com.appsnipp.admin.apiinterface;
 
+import com.appsnipp.admin.apiinterface.responce.bill_child_responce;
+import com.appsnipp.admin.apiinterface.responce.bill_responce;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.apiinterface.responce.member_responce;
 import com.appsnipp.admin.apiinterface.responce.notice_responce;
 import com.appsnipp.admin.apiinterface.responce.resource_responce;
+import com.appsnipp.admin.apiinterface.responce.spnt_total_responce;
 import com.appsnipp.admin.apiinterface.responce.visidetail_responce;
 
 import retrofit2.Call;
@@ -122,6 +125,53 @@ public interface Api {
     Call<CommanResponse> mobnoex(
             @Field("passmobnoex") String passmobnoex,
             @Field("mobno") String mobno
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("accountbill.php")
+    Call<CommanResponse> accbillinsert(
+            @Field("billinsert") String billinsert,
+            @Field("billname") String billname,
+            @Field("totalamt") String totalamt,
+            @Field("billdate") String billdate
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("accountbill.php")
+    Call<CommanResponse> accbillspntinsert(
+            @Field("billspntinsert") String billspntinsert,
+            @Field("bill_id") String bill_id,
+            @Field("spnt_name") String spnt_name,
+            @Field("spnt_amt") String spnt_amt
+
+    );
+
+    @FormUrlEncoded
+    @POST("accountbill.php")
+    Call<bill_responce> accbilldetails(
+            @Field("billdetails") String billdetails
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("accountbill.php")
+    Call<bill_child_responce> billchild(
+            @Field("billspntdetails") String billspntdetails,
+            @Field("bill_id") String bill_id
+
+
+    );
+    @FormUrlEncoded
+    @POST("accountbill.php")
+    Call<spnt_total_responce> spnttotal(
+            @Field("spenttotal") String spenttotal,
+            @Field("bill_id") String bill_id
+
 
     );
 }

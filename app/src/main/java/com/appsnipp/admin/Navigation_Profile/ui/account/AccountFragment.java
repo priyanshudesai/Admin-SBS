@@ -1,6 +1,8 @@
 package com.appsnipp.admin.Navigation_Profile.ui.account;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -11,20 +13,35 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.accout_fragment.bill_details;
 import com.appsnipp.admin.accout_fragment.maintence_details;
+import com.appsnipp.admin.apiinterface.Api;
+import com.appsnipp.admin.apiinterface.ApiClient;
+import com.appsnipp.admin.apiinterface.CommanResponse;
+import com.appsnipp.admin.apiinterface.responce.event_responce;
+import com.appsnipp.admin.event_recycle_view.event_adapter;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import java.util.Collections;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountFragment extends Fragment implements TabLayout.OnTabSelectedListener {
     TabLayout tabLayout;
+    EditText fname,famt,fdate;
     ViewPager viewPager;
     FragmentManager manager;
     Fragment fragment;
     FloatingActionButton fb1,fb2;
-
+    AlertDialog.Builder builder;
     private AccountViewModel accountViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -37,7 +54,49 @@ public class AccountFragment extends Fragment implements TabLayout.OnTabSelected
         fb1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "bill", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "bill", Toast.LENGTH_SHORT).show();
+                builder= new AlertDialog.Builder(getContext());
+                LayoutInflater inflater=(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v=inflater.inflate(R.layout.accbill_add,null);
+                builder.setView(v);
+                builder.setCancelable(true);
+                AlertDialog alert=builder.create();
+
+                fname=(EditText) v.findViewById(R.id.fbill_name);
+                famt=(EditText) v.findViewById(R.id.fbill_amt);
+                fdate=(EditText) v.findViewById(R.id.fbill_date);
+
+                v.findViewById(R.id.fbill_add).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String sfname=fname.getText().toString();
+                        String sfamt=famt.getText().toString();
+                        String sfdate=fdate.getText().toString();
+
+                        Api api= ApiClient.getClient().create(Api.class);
+                        Call<CommanResponse> call= api.accbillinsert("billinsert",sfname,sfamt,sfdate);
+                        call.enqueue(new Callback<CommanResponse>() {
+                            @Override
+                            public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
+                                if (response.body().getSuccess()==200) {
+                                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<CommanResponse> call, Throwable t) {
+                                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+
+                alert.show();
             }
         });
 

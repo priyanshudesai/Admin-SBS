@@ -1,6 +1,8 @@
 package com.appsnipp.admin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         no=(EditText) findViewById(R.id.mono);
         pass=(EditText) findViewById(R.id.password);
 
+        if (getAppIntro(this)) {
+            Intent i = new Intent(this, IntroActivity.class);
+            startActivity(i);
+        }
+
     }
     @Override
     protected void onStart() {
@@ -51,6 +58,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
         }
 
+    }
+
+
+    private boolean getAppIntro(LoginActivity mainActivity) {
+        SharedPreferences preferences;
+        preferences = mainActivity.getSharedPreferences(IntroActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        return preferences.getBoolean("AppIntro", true);
     }
 
     public void viewForgotPAssword(View view) {

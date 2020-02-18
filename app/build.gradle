@@ -69,6 +69,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
 
+
+    implementation 'com.github.apl-devs:appintro:v4.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
