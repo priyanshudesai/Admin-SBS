@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->
+    android:nestedScrollingEnabled="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,11 +17,9 @@
             android:background="@color/gray_light"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/_10sdp"
-            android:text="Spnt Details"
+            android:text="Book Resource"
             android:textColor="@color/primaryTextColor"
             android:textSize="18sp" />
-
-
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/userIDTextInputLayout"
@@ -30,39 +29,37 @@
             android:layout_margin="@dimen/_10sdp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/spnt_name"
-                android:inputType="text"
+                android:id="@+id/res_book_btn_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="spent name" />
+                android:hint="Book for Date" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/passwordTextInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp">
 
             <android.support.design.widget.TextInputEditText
-android:id="@+id/spnt_amt"
+                android:id="@+id/res_book_btn_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="spnt ammount" />
+                android:hint="Book for Time" />
 
         </android.support.design.widget.TextInputLayout>
 
-
         <Button
-            android:id="@+id/spnt_add"
+            android:id="@+id/res_book_btn_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:background="@color/colorPrimary"
-            android:text="ADD"
+            android:text="Save"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

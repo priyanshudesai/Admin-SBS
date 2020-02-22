@@ -2,6 +2,7 @@ package com.appsnipp.admin.resource_list;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.appsnipp.admin.R;
 import com.appsnipp.admin.apiinterface.responce_get_set.resource_get_set;
+import com.appsnipp.admin.res_book_res.book_res_act;
 
 import java.util.List;
 
@@ -31,6 +33,18 @@ public class resource_adapter extends RecyclerView.Adapter<resource_adapter.View
         View itemview= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.resource_list,null);
 
         ViewHolder viewHolder=new ViewHolder(itemview);
+
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(mcontext, book_res_act.class);
+                i.putExtra("res_name",data.get(viewHolder.getAdapterPosition()).getName());
+                i.putExtra("price",data.get(viewHolder.getAdapterPosition()).getCharge());
+                mcontext.startActivity(i);
+
+            }
+        });
         return viewHolder;
     }
 

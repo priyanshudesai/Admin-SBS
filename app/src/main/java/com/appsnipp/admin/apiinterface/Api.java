@@ -1,11 +1,13 @@
 package com.appsnipp.admin.apiinterface;
 
+import com.appsnipp.admin.apiinterface.Paytm.Checksum;
 import com.appsnipp.admin.apiinterface.responce.bill_child_responce;
 import com.appsnipp.admin.apiinterface.responce.bill_responce;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.apiinterface.responce.member_responce;
 import com.appsnipp.admin.apiinterface.responce.notice_responce;
+import com.appsnipp.admin.apiinterface.responce.res_book_responce;
 import com.appsnipp.admin.apiinterface.responce.resource_responce;
 import com.appsnipp.admin.apiinterface.responce.spnt_total_responce;
 import com.appsnipp.admin.apiinterface.responce.visidetail_responce;
@@ -174,4 +176,45 @@ public interface Api {
 
 
     );
+
+    @FormUrlEncoded
+    @POST("generateChecksum.php")
+    Call<Checksum> getChecksum(
+            @Field("MID") String mId,
+            @Field("ORDER_ID") String orderId,
+            @Field("CUST_ID") String custId,
+            @Field("CHANNEL_ID") String channelId,
+            @Field("TXN_AMOUNT") String txnAmount,
+            @Field("WEBSITE") String website,
+            @Field("CALLBACK_URL") String callbackUrl,
+            @Field("INDUSTRY_TYPE_ID") String industryTypeId
+    );
+    @FormUrlEncoded
+    @POST("resourseregister.php")
+    Call<CommanResponse> book_check(
+            @Field("resourcecheck") String resourcecheck,
+            @Field("res_name") String res_name,
+            @Field("date") String date
+    );
+
+
+
+    @FormUrlEncoded
+    @POST("resourseregister.php")
+    Call<res_book_responce> booklist(
+            @Field("resourcedetails") String resourcedetails,
+            @Field("res_name") String res_name
+
+    );
+    @FormUrlEncoded
+    @POST("resourseregister.php")
+    Call<CommanResponse> book_res(
+            @Field("resourceregi") String resourceregi,
+            @Field("res_name") String res_name,
+            @Field("date") String date,
+            @Field("time") String time,
+            @Field("bookname") String book_name
+
+    );
+
 }

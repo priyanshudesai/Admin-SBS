@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class ApiClient {
 
    // private static final String BASE_URL = "http://192.168.0.105/TestApidb/";
-    private static final String BASE_URL = "http://www.adityapanchal.in/";
+    public static final String BASE_URL = "http://www.adityapanchal.in/";
 
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {

@@ -164,6 +164,7 @@ public class bill_adapter extends RecyclerView.Adapter<bill_adapter.ViewHolder>{
 
             @Override
             public void onFailure(Call<spnt_total_responce> call, Throwable t) {
+                Toast.makeText(context, t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
 
             }
         });
