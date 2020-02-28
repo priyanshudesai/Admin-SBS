@@ -133,9 +133,10 @@ public class ProfileFragment extends Fragment{
                 TextView t;
                 dp = v.findViewById(R.id.profile_dp);
                 t = v.findViewById(R.id.edit_dp);
-                Drawable d = img.getDrawable();
 
-                dp.setImageDrawable(d);
+
+                //dp.setImageResource(img.getResources());
+                dp.setImageDrawable(img.getDrawable());
 
                 builder = new AlertDialog.Builder(getActivity());
 
@@ -332,8 +333,7 @@ public class ProfileFragment extends Fragment{
                 }
                 Glide.with(ProfileFragment.this)
                         .load(mPhotoFile)
-                        .apply(new RequestOptions().centerCrop()
-
+                        .apply(new RequestOptions()
                                 .placeholder(R.drawable.profile_pic_place_holder))
                         .into(img);
             } else if (requestCode == REQUEST_GALLERY_PHOTO) {
@@ -345,8 +345,7 @@ public class ProfileFragment extends Fragment{
                 }
                 Glide.with(ProfileFragment.this)
                         .load(mPhotoFile)
-                        .apply(new RequestOptions().centerCrop()
-
+                        .apply(new RequestOptions()
                                 .placeholder(R.drawable.profile_pic_place_holder))
                         .into(img);
             }

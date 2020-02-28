@@ -1,21 +1,28 @@
 package com.appsnipp.admin.Navigation_Profile.ui.complain;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +30,15 @@ import android.widget.Toast;
 
 import com.appsnipp.admin.BuildConfig;
 import com.appsnipp.admin.R;
+import com.appsnipp.admin.apiinterface.Api;
+import com.appsnipp.admin.apiinterface.ApiClient;
+import com.appsnipp.admin.apiinterface.responce.cmp_responce;
+import com.appsnipp.admin.apiinterface.responce.event_responce;
+import com.appsnipp.admin.apiinterface.responce_get_set.cmp_get_set;
+import com.appsnipp.admin.apiinterface.responce_get_set.event_get_set;
 import com.appsnipp.admin.camera.FileCompressor;
+import com.appsnipp.admin.cmp_recycle.cmp_adapter;
+import com.appsnipp.admin.event_recycle_view.event_adapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.karumi.dexter.Dexter;
@@ -35,21 +50,26 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
 public class ComplainFragment extends Fragment {
-    Button complainphoto;
-    TextView gallery, camera;
+    RecyclerView recyclerView;
+
+    cmp_adapter ev;
+    SwipeRefreshLayout swipe;
     AlertDialog.Builder builder;
+    List<cmp_get_set> li;
+
+
     private ComplainViewModel complainViewModel;
-ImageView img;
-    static final int REQUEST_TAKE_PHOTO = 1;
-    static final int REQUEST_GALLERY_PHOTO = 2;
-    File mPhotoFile;
-    FileCompressor mCompressor;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -57,199 +77,60 @@ ImageView img;
         complainViewModel =
                 ViewModelProviders.of(this).get(ComplainViewModel.class);
         View root = inflater.inflate(R.layout.fragment_complain, container, false);
-img=root.findViewById(R.id.complain_img);
-        complainphoto = root.findViewById(R.id.cmpphoto);
-        mCompressor = new FileCompressor(getContext());
+        recyclerView=(RecyclerView) root.findViewById(R.id.complainrecycle);
+        swipe=(SwipeRefreshLayout) root.findViewById(R.id.swipe_complain);
+        swipe.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources().getColor(R.color.lite_blue));
 
-        complainphoto.setOnClickListener(new View.OnClickListener() {
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                selectImage();
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        loadcmp();
+                        swipe.setRefreshing(false);
+
+                    }
+                }, 2000);
+                // swipe.setRefreshing(false);
             }
         });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        loadcmp();
         return root;
     }
-    private void selectImage() {
-        final CharSequence[] items = {
-                "Take Photo", "Choose from Library",
-                "Cancel"
-        };
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-        builder.setItems(items, (dialog, item) -> {
-            if (items[item].equals("Take Photo")) {
-                requestStoragePermission(true);
-            } else if (items[item].equals("Choose from Library")) {
-                requestStoragePermission(false);
-            } else if (items[item].equals("Cancel")) {
-                dialog.dismiss();
+
+    public void loadcmp()
+    {
+        Api api= ApiClient.getClient().create(Api.class);
+        Call<cmp_responce> call= api.cmp_details("complaindetail");
+        call.enqueue(new Callback<cmp_responce>() {
+            @Override
+            public void onResponse(Call<cmp_responce> call, Response<cmp_responce> response) {
+                if (response.body().getSuccess()==200) {
+                    li=response.body().getDe();
+                    Collections.reverse(li);
+                    ev=new cmp_adapter(getContext(),li);
+
+                    recyclerView.setAdapter(ev);
+                    LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation_from_right);
+                    recyclerView.setLayoutAnimation(layoutAnimationController);
+                }
+                else {
+                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<cmp_responce> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.show();
-    }
 
-    /**
-     * Capture image from camera
-     */
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                // Error occurred while creating the File
-            }
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getContext(),
-                        BuildConfig.APPLICATION_ID + ".provider",
-                        photoFile);
 
-                mPhotoFile = photoFile;
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
 
-    /**
-     * Select image fro gallery
-     */
-    private void dispatchGalleryIntent() {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickPhoto.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivityForResult(pickPhoto, REQUEST_GALLERY_PHOTO);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_TAKE_PHOTO) {
-                try {
-                    mPhotoFile = mCompressor.compressToFile(mPhotoFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Glide.with(ComplainFragment.this)
-                        .load(mPhotoFile)
-                        .apply(new RequestOptions()
-                                .placeholder(R.drawable.profile_pic_place_holder))
-                        .into(img);
-            } else if (requestCode == REQUEST_GALLERY_PHOTO) {
-                Uri selectedImage = data.getData();
-                try {
-                    mPhotoFile = mCompressor.compressToFile(new File(getRealPathFromUri(selectedImage)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Glide.with(ComplainFragment.this)
-                        .load(mPhotoFile)
-                        .apply(new RequestOptions()
-                                .placeholder(R.drawable.profile_pic_place_holder))
-                        .into(img);
-            }
-        }
-    }
-
-    /**
-     * Requesting multiple permissions (storage and camera) at once
-     * This uses multiple permission model from dexter
-     * On permanent denial opens settings dialog
-     */
-    private void requestStoragePermission(final boolean isCamera) {
-        Dexter.withActivity(getActivity())
-                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            if (isCamera) {
-                                dispatchTakePictureIntent();
-                            } else {
-                                dispatchGalleryIntent();
-                            }
-                        }
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            showSettingsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions,
-                                                                   PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                })
-                .withErrorListener(
-                        error -> Toast.makeText(getContext(), "Error occurred! ", Toast.LENGTH_SHORT)
-                                .show())
-                .onSameThread()
-                .check();
-    }
-
-    /**
-     * Showing Alert Dialog with Settings option
-     * Navigates user to app settings
-     * NOTE: Keep proper title and message depending on your app
-     */
-    private void showSettingsDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
-        builder.setTitle("Need Permissions");
-        builder.setMessage(
-                "This app needs permission to use this feature. You can grant them in app settings.");
-        builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
-            dialog.cancel();
-            openSettings();
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
-
-    // navigating user to app settings
-    private void openSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-        intent.setData(uri);
-        startActivityForResult(intent, 101);
-    }
-
-    /**
-     * Create file with current timestamp name
-     *
-     * @throws IOException
-     */
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String mFileName = "JPEG_" + timeStamp + "_";
-        File storageDir =getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File mFile = File.createTempFile(mFileName, ".jpg", storageDir);
-        return mFile;
-    }
-
-    /**
-     * Get real file path from URI
-     */
-    public String getRealPathFromUri(Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor =getActivity().getContentResolver().query(contentUri, proj, null, null, null);
-            assert cursor != null;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
 }

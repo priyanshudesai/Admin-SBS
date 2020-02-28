@@ -76,6 +76,7 @@ public class bill_adapter extends RecyclerView.Adapter<bill_adapter.ViewHolder>{
                                 public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
                                     if (response.body().getSuccess()==200) {
                                         Toast.makeText(context, response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                                        mydialog.dismiss();
                                     }
                                     else
                                     {

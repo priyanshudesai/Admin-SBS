@@ -1,6 +1,7 @@
 package com.appsnipp.admin.Navigation_Profile.ui.account;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,9 +28,14 @@ import com.appsnipp.admin.apiinterface.ApiClient;
 import com.appsnipp.admin.apiinterface.CommanResponse;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.event_recycle_view.event_adapter;
+import com.appsnipp.admin.res_book_res.book_res_act;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +72,44 @@ public class AccountFragment extends Fragment implements TabLayout.OnTabSelected
                 fname=(EditText) v.findViewById(R.id.fbill_name);
                 famt=(EditText) v.findViewById(R.id.fbill_amt);
                 fdate=(EditText) v.findViewById(R.id.fbill_date);
+                String s =new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
+                fdate.setText(s);
+                fdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if(b){
+
+
+
+                            // Get Current Date
+                            final Calendar c = Calendar.getInstance();
+                            int mYear = c.get(Calendar.YEAR);
+                            int mMonth = c.get(Calendar.MONTH);
+                            int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+
+
+                            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                                    new DatePickerDialog.OnDateSetListener() {
+
+                                        @Override
+                                        public void onDateSet(DatePicker view, int year,
+                                                              int monthOfYear, int dayOfMonth) {
+                                            fdate.setText(String.format("%02d-%02d-%04d",dayOfMonth,monthOfYear+1,year));
+                                            //e1.setText(dayOfMonth+"-"+(monthOfYear + 1)+"-"+year);
+
+                                        }
+
+                                    }, mYear, mMonth, mDay);
+                            datePickerDialog.show();
+
+
+
+
+                        }
+                    }
+                });
 
                 v.findViewById(R.id.fbill_add).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -73,6 +118,7 @@ public class AccountFragment extends Fragment implements TabLayout.OnTabSelected
                         String sfamt=famt.getText().toString();
                         String sfdate=fdate.getText().toString();
 
+
                         Api api= ApiClient.getClient().create(Api.class);
                         Call<CommanResponse> call= api.accbillinsert("billinsert",sfname,sfamt,sfdate);
                         call.enqueue(new Callback<CommanResponse>() {
@@ -80,6 +126,7 @@ public class AccountFragment extends Fragment implements TabLayout.OnTabSelected
                             public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
                                 if (response.body().getSuccess()==200) {
                                     Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                                    alert.dismiss();
                                 }
                                 else {
                                     Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();

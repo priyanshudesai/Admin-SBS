@@ -3,6 +3,7 @@ package com.appsnipp.admin.apiinterface;
 import com.appsnipp.admin.apiinterface.Paytm.Checksum;
 import com.appsnipp.admin.apiinterface.responce.bill_child_responce;
 import com.appsnipp.admin.apiinterface.responce.bill_responce;
+import com.appsnipp.admin.apiinterface.responce.cmp_responce;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.apiinterface.responce.member_responce;
@@ -215,6 +216,20 @@ public interface Api {
             @Field("time") String time,
             @Field("bookname") String book_name
 
+    );
+
+    @FormUrlEncoded
+    @POST("complainapi.php")
+    Call<cmp_responce> cmp_details(
+            @Field("complaindetail") String complaindetail
+    );
+
+    @FormUrlEncoded
+    @POST("complainapi.php")
+    Call<CommanResponse> cmp_status(
+            @Field("complaincall") String complaincall,
+            @Field("id") String id,
+            @Field("status") String status
     );
 
 }

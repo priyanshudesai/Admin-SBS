@@ -1,77 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteTextColor">
-    <LinearLayout
+    android:background="@color/whiteTextColor"
+    >
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/_10sdp">
+        >
         <ImageView
-            android:id="@+id/complain_img"
-            android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/detail_images" />
-
-        <Button
-            android:id="@+id/cmpphoto"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/detail_design_buttontype"
-            android:padding="@dimen/_5sdp"
-
-            android:drawableLeft="@drawable/camera_icon"
-            android:text="Choose Image"
-
-            android:textColor="@color/whiteTextColor"
-
-            />
-
-        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp">
-            <EditText
-                style="@style/modifiedEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Complain Title"
-                android:textSize="16sp"
-                android:layout_marginTop="@dimen/_20sdp"/>
-        </android.support.design.widget.TextInputLayout>
+            android:scaleType="fitStart"
+            android:src="@drawable/header"/>
 
-        <android.support.design.widget.TextInputLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
-
-            <EditText
-                style="@style/modifiedEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Complain Description"
-                android:textSize="16sp"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:maxLines="3"
-                android:scrollbars="vertical"
-                />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            style="@style/loginButton"
-            android:layout_width="@dimen/_170sdp"
-            android:layout_height="50dp"
+            android:text="Complain"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center"
             android:layout_marginTop="@dimen/_35sdp"
-            android:layout_gravity="center"
-            android:background="@drawable/registration_br"
-            android:text="Save"
-            />
-    </LinearLayout>
-</ScrollView>
+            android:textColor="@color/whiteTextColor"/>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_complain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_85sdp">
+                <android.support.v7.widget.RecyclerView
+                    android:layoutAnimation="@anim/layout_anmimation_fall_down"
+                    android:id="@+id/complainrecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_85sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
+</LinearLayout>
