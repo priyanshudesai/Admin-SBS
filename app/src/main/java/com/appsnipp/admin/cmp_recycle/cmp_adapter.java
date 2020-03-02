@@ -81,7 +81,7 @@ public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
 
 
                         TextView t = v.findViewById(R.id.mno);
-                        TextView t1 = v.findViewById(R.id.mno1);
+                       // TextView t1 = v.findViewById(R.id.mno1);
                         builder = new AlertDialog.Builder(mcontext);
 
                         builder.setView(v);
@@ -106,25 +106,8 @@ public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
                             }
                         });
 
-                        t1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                String number = "+917383846827";
-                                Intent intent = new Intent(Intent.ACTION_CALL);
-                                intent.setData(Uri.parse("tel:" + number));
-                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                    // TODO: Consider calling
-                                    //    ActivityCompat#requestPermissions
-                                    // here to request the missing permissions, and then overriding
-                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                    //                                          int[] grantResults)
-                                    // to handle the case where the user grants the permission. See the documentation
-                                    // for ActivityCompat#requestPermissions for more details.
-                                    return;
-                                }
-                                mcontext.startActivity(intent);
-                            }
-                        });
+
+
 
 
 

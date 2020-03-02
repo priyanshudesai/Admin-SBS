@@ -65,7 +65,6 @@ public class ComplainFragment extends Fragment {
 
     cmp_adapter ev;
     SwipeRefreshLayout swipe;
-    AlertDialog.Builder builder;
     List<cmp_get_set> li;
 
 

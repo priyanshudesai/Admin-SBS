@@ -28,7 +28,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <TextView
+                    <!--<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Smart\nBuilding\nSector"
@@ -37,7 +37,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:textStyle="bold"
-                        />
+                        />-->
                     <ImageView
                         android:layout_width="@dimen/_300sdp"
                         android:layout_height="@dimen/_180sdp"
