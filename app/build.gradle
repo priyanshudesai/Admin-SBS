@@ -75,6 +75,10 @@ dependencies {
 
     implementation 'com.paytm:pgplussdk:1.0.1'
 
+
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.nbsp:library:1.8'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

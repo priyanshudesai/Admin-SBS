@@ -4,6 +4,7 @@ import com.appsnipp.admin.apiinterface.Paytm.Checksum;
 import com.appsnipp.admin.apiinterface.responce.bill_child_responce;
 import com.appsnipp.admin.apiinterface.responce.bill_responce;
 import com.appsnipp.admin.apiinterface.responce.cmp_responce;
+import com.appsnipp.admin.apiinterface.responce.document_responce;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.apiinterface.responce.loginresponce;
 import com.appsnipp.admin.apiinterface.responce.member_responce;
@@ -13,10 +14,14 @@ import com.appsnipp.admin.apiinterface.responce.resource_responce;
 import com.appsnipp.admin.apiinterface.responce.spnt_total_responce;
 import com.appsnipp.admin.apiinterface.responce.visidetail_responce;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface Api {
 
@@ -231,5 +236,21 @@ public interface Api {
             @Field("id") String id,
             @Field("status") String status
     );
+
+
+    @Multipart
+    @POST("documentapi.php")
+    Call<CommanResponse> docuplaod(
+            @Part("docupload") RequestBody docupload,
+            @Part MultipartBody.Part document_file
+    );
+
+
+    @FormUrlEncoded
+    @POST("documentapi.php")
+    Call<document_responce> documentdetailsl(
+            @Field("documentdetail") String documentdetail
+    );
+
 
 }

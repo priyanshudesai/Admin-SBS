@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SplashScreen"></activity>
+        <activity android:name=".document_recycle.document_view"></activity>
+        <activity android:name=".SplashScreen" />
         <activity android:name=".IntroActivity" />
         <activity android:name=".Otpverification.Forgetpassword_otp" />
         <activity android:name=".Bottom_Navigation_Activity" />
@@ -32,7 +33,7 @@
         <activity
             android:name=".detailtest_activity"
             android:screenOrientation="portrait" />
-        <activity android:name=".res_book_res.book_res_act"/>
+        <activity android:name=".res_book_res.book_res_act" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait">
@@ -70,7 +71,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

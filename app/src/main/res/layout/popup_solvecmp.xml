@@ -22,26 +22,57 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_30sdp"
             android:text="(+91) 9574250805\n Plumber"/>
-        <!--  <TextView
-              android:id="@+id/mno1"
-              android:layout_width="match_parent"
-              android:text="Carpenter\n+917383846827"
-              android:layout_height="wrap_content"/>
-          <TextView
-              android:layout_width="match_parent"
-              android:text="Sweeper\n+919876543235"
-              android:layout_height="wrap_content"/>
-          <TextView
-              android:layout_width="match_parent"
-              android:text="Painter\n+919876543235"
-              android:layout_height="wrap_content"/>
-          <TextView
-              android:layout_width="match_parent"
-              android:text="Builder\n+919876543235"
-              android:layout_height="wrap_content"/>
-          <TextView
-              android:layout_width="match_parent"
-              android:text="Helper\n+919574250805"
-              android:layout_height="wrap_content"/>-->
+        <ImageView
+            android:id="@+id/phoene_icon1"
+            android:layout_below="@id/mno"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/phoneiconcmp"/>
+        <TextView
+            android:id="@+id/mno1"
+            android:layout_below="@id/mno"
+            android:layout_toRightOf="@id/phoene_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:text="(+91) 9574250805\n Painter"/>
+        <ImageView
+            android:id="@+id/phoene_icon2"
+            android:layout_below="@id/mno1"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/phoneiconcmp"/>
+        <TextView
+            android:id="@+id/mno2"
+            android:layout_below="@id/mno1"
+            android:layout_toRightOf="@id/phoene_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:text="(+91) 9574250805\n Security"/>
+        <ImageView
+            android:id="@+id/phoene_icon3"
+            android:layout_below="@id/mno2"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/phoneiconcmp"/>
+        <TextView
+            android:id="@+id/mno3"
+            android:layout_below="@id/mno2"
+            android:layout_toRightOf="@id/phoene_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:text="(+91) 9574250805\n Swepper"/>
+
     </RelativeLayout>
 </LinearLayout>

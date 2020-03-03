@@ -1,6 +1,7 @@
 package com.appsnipp.admin.cmp_recycle;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import retrofit2.Response;
 
 public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
     Context mcontext;
+    private static final int REQUEST_CALL = 1;
     Dialog mydialog;
     AlertDialog.Builder builder;
     private List<cmp_get_set> cmp_data;
@@ -81,6 +83,10 @@ public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
 
 
                         TextView t = v.findViewById(R.id.mno);
+                        TextView t1 = v.findViewById(R.id.mno1);
+                        TextView t2 = v.findViewById(R.id.mno2);
+                        TextView t3 = v.findViewById(R.id.mno3);
+
                        // TextView t1 = v.findViewById(R.id.mno1);
                         builder = new AlertDialog.Builder(mcontext);
 
@@ -89,26 +95,83 @@ public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
                         t.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String number = "+917383846827";
-                                Intent intent = new Intent(Intent.ACTION_CALL);
-                                intent.setData(Uri.parse("tel:" + number));
-                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                    // TODO: Consider calling
-                                    //    ActivityCompat#requestPermissions
-                                    // here to request the missing permissions, and then overriding
-                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                    //                                          int[] grantResults)
-                                    // to handle the case where the user grants the permission. See the documentation
-                                    // for ActivityCompat#requestPermissions for more details.
-                                    return;
-                                }
-                                mcontext.startActivity(intent);
+                                String number = "+919574250805";
+                                makePhoneCall(number);
+//                                Intent intent = new Intent(Intent.ACTION_CALL);
+//                                intent.setData(Uri.parse("tel:" + number));
+//                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                    // TODO: Consider calling
+//                                    //    ActivityCompat#requestPermissions
+//                                    // here to request the missing permissions, and then overriding
+//                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                    //                                          int[] grantResults)
+//                                    // to handle the case where the user grants the permission. See the documentation
+//                                    // for ActivityCompat#requestPermissions for more details.
+//                                    return;
+//                                }
+//                                mcontext.startActivity(intent);
                             }
                         });
-
-
-
-
+                        t1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String number = "+919574250805";
+                                makePhoneCall(number);
+//                                Intent intent = new Intent(Intent.ACTION_CALL);
+//                                intent.setData(Uri.parse("tel:" + number));
+//                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                    // TODO: Consider calling
+//                                    //    ActivityCompat#requestPermissions
+//                                    // here to request the missing permissions, and then overriding
+//                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                    //                                          int[] grantResults)
+//                                    // to handle the case where the user grants the permission. See the documentation
+//                                    // for ActivityCompat#requestPermissions for more details.
+//                                    return;
+//                                }
+//                                mcontext.startActivity(intent);
+                            }
+                        });
+                        t2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String number = "+919574250805";
+                                makePhoneCall(number);
+//                                Intent intent = new Intent(Intent.ACTION_CALL);
+//                                intent.setData(Uri.parse("tel:" + number));
+//                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                    // TODO: Consider calling
+//                                    //    ActivityCompat#requestPermissions
+//                                    // here to request the missing permissions, and then overriding
+//                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                    //                                          int[] grantResults)
+//                                    // to handle the case where the user grants the permission. See the documentation
+//                                    // for ActivityCompat#requestPermissions for more details.
+//                                    return;
+//                                }
+//                                mcontext.startActivity(intent);
+                            }
+                        });
+                        t3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String number = "+919574250805";
+                                makePhoneCall(number);
+//                                Intent intent = new Intent(Intent.ACTION_CALL);
+//                                intent.setData(Uri.parse("tel:" + number));
+//                                if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                    // TODO: Consider calling
+//                                    //    ActivityCompat#requestPermissions
+//                                    // here to request the missing permissions, and then overriding
+//                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                    //                                          int[] grantResults)
+//                                    // to handle the case where the user grants the permission. See the documentation
+//                                    // for ActivityCompat#requestPermissions for more details.
+//                                    return;
+//                                }
+//                                mcontext.startActivity(intent);
+                            }
+                        });
 
 
                         builder.setCancelable(true);
@@ -146,6 +209,21 @@ public class cmp_adapter extends RecyclerView.Adapter<cmp_adapter.ViewHolder> {
         return viewHolder;
     }
 
+    public void makePhoneCall(String number) {
+        //String number = mEditTextNumber.getText().toString();
+        if (number.trim().length() > 0) {
+
+            if (ContextCompat.checkSelfPermission(mcontext,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) mcontext,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            } else {
+                String dial = "tel:" + number;
+                mcontext.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         cmp_get_set d=cmp_data.get(i);
