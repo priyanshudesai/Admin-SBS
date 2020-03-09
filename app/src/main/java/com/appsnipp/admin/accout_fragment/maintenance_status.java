@@ -1,31 +1,25 @@
 package com.appsnipp.admin.accout_fragment;
 
-
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.appsnipp.admin.R;
-
 import com.appsnipp.admin.apiinterface.Api;
 import com.appsnipp.admin.apiinterface.ApiClient;
-import com.appsnipp.admin.apiinterface.responce.bill_responce;
 import com.appsnipp.admin.apiinterface.responce.mainte_responce;
+import com.appsnipp.admin.apiinterface.responce.maintre_responce;
 import com.appsnipp.admin.apiinterface.responce_get_set.mainte_get_set;
-import com.appsnipp.admin.bill_recycle.bill_adapter;
+import com.appsnipp.admin.apiinterface.responce_get_set.maintre_get_set;
 import com.appsnipp.admin.maintence_recycle.maintence_adapter;
-import com.appsnipp.admin.maintence_recycle.maintence_data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,28 +27,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class maintence_details extends Fragment {
+public class maintenance_status extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    List<mainte_get_set> li;
-    maintence_adapter ada;
+    List<maintre_get_set> li;
+    main_status_adapter ada;
     SwipeRefreshLayout swipe;
-    public maintence_details() {
-        // Required empty public constructor
-    }
-
-
+    String me;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_maintence_deails, container, false);
-        recyclerView=(RecyclerView) view.findViewById(R.id.maintence_recycle);
-        swipe=(SwipeRefreshLayout) view.findViewById(R.id.swipe_mainte);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.maintenance_status);
+
+        recyclerView=(RecyclerView) findViewById(R.id.mstatus_recycle);
+        swipe=(SwipeRefreshLayout) findViewById(R.id.swipe_mstatus);
         swipe.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources().getColor(R.color.lite_blue));
+
+        Intent i=getIntent();
+        me=i.getStringExtra("mainteid");
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -70,29 +60,28 @@ public class maintence_details extends Fragment {
                 //swipe.setRefreshing(false);
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(maintenance_status.this));
         loadmainte();
-        return view;
     }
+
     public void loadmainte()
     {
         Api api= ApiClient.getClient().create(Api.class);
-        Call<mainte_responce> call=api.main_details("mainadmindetails");
-        call.enqueue(new Callback<mainte_responce>() {
+        Call<maintre_responce> call=api.mainpaid_details("mainpaiddetails",me);
+        call.enqueue(new Callback<maintre_responce>() {
             @Override
-            public void onResponse(Call<mainte_responce> call, Response<mainte_responce> response) {
+            public void onResponse(Call<maintre_responce> call, Response<maintre_responce> response) {
                 if (response.body().getSuccess()==200) {
-                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
 
                     li=response.body().getDe();
                     Collections.reverse(li);
-                    ada=new maintence_adapter(li,getContext());
+                    ada=new main_status_adapter(li,maintenance_status.this);
                     recyclerView.setAdapter(ada);
-                    LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_anmimation_fall_down);
+                    LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(maintenance_status.this,R.anim.layout_anmimation_fall_down);
                     recyclerView.setLayoutAnimation(layoutAnimationController);
                 }
                 else {
-                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(maintenance_status.this, response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -101,8 +90,8 @@ public class maintence_details extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<mainte_responce> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<maintre_responce> call, Throwable t) {
+                Toast.makeText(maintenance_status.this, t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
             }
         });
 

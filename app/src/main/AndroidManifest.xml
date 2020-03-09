@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".document_recycle.document_view"></activity>
+        <activity android:name=".accout_fragment.maintenance_status"></activity>
+        <activity android:name=".document_recycle.document_view" />
         <activity android:name=".SplashScreen" />
         <activity android:name=".IntroActivity" />
         <activity android:name=".Otpverification.Forgetpassword_otp" />

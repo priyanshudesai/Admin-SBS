@@ -7,6 +7,8 @@ import com.appsnipp.admin.apiinterface.responce.cmp_responce;
 import com.appsnipp.admin.apiinterface.responce.document_responce;
 import com.appsnipp.admin.apiinterface.responce.event_responce;
 import com.appsnipp.admin.apiinterface.responce.loginresponce;
+import com.appsnipp.admin.apiinterface.responce.mainte_responce;
+import com.appsnipp.admin.apiinterface.responce.maintre_responce;
 import com.appsnipp.admin.apiinterface.responce.member_responce;
 import com.appsnipp.admin.apiinterface.responce.notice_responce;
 import com.appsnipp.admin.apiinterface.responce.res_book_responce;
@@ -252,5 +254,29 @@ public interface Api {
             @Field("documentdetail") String documentdetail
     );
 
+
+    @FormUrlEncoded
+    @POST("maintence.php")
+    Call<CommanResponse> main_entry(
+            @Field("mainentry") String mainentry,
+            @Field("billname") String billname,
+            @Field("amount") String amount,
+            @Field("lastdate") String lastdate
+    );
+
+
+    @FormUrlEncoded
+    @POST("maintence.php")
+    Call<mainte_responce> main_details(
+            @Field("mainadmindetail") String mainadmindetail
+    );
+
+
+    @FormUrlEncoded
+    @POST("maintence.php")
+    Call<maintre_responce> mainpaid_details(
+            @Field("mainpaiddetail") String mainpaiddetail,
+            @Field("mainteid") String mainteid
+    );
 
 }

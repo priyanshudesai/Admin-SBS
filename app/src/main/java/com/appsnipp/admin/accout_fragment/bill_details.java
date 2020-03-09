@@ -104,7 +104,7 @@ public class bill_details extends Fragment {
                     recyclerView.setLayoutAnimation(layoutAnimationController);
                 }
                 else {
-                    Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(getContext(), response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -114,7 +114,7 @@ public class bill_details extends Fragment {
 
             @Override
             public void onFailure(Call<bill_responce> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getContext(), t.getLocalizedMessage()+"", Toast.LENGTH_SHORT).show();
             }
         });
 
