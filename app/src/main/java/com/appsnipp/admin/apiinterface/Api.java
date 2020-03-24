@@ -279,4 +279,12 @@ public interface Api {
             @Field("mainteid") String mainteid
     );
 
+    @FormUrlEncoded
+    @POST("fcm_insert.php")
+    Call<CommanResponse> getFcm(
+            @Field("fcm_tokenadmin") String fcm_tokenadmin,
+            @Field("fcm_token") String fcm_token
+    );
+
+
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -24,6 +25,16 @@ import android.view.Menu;
 import com.appsnipp.admin.BottomNavigationBehaviour;
 import com.appsnipp.admin.Navigation_Profile.ui.dashboard.DashBoardFragment;
 import com.appsnipp.admin.R;
+import com.appsnipp.admin.apiinterface.Api;
+import com.appsnipp.admin.apiinterface.ApiClient;
+import com.appsnipp.admin.apiinterface.CommanResponse;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Navigation_Activity extends AppCompatActivity {
     Fragment fragment;
@@ -53,6 +64,15 @@ public class Navigation_Activity extends AppCompatActivity {
         layoutParams.setBehavior(new BottomNavigationBehaviour());
 
 
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Navigation_Activity.this, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                Log.i("Token", token);
+                saveToken(token);
+            }
+        });
 
 
 
@@ -119,6 +139,22 @@ public class Navigation_Activity extends AppCompatActivity {
 //        super.onBackPressed();
     }
 
+    private void saveToken(String token) {
+
+        Api api= ApiClient.getClient().create(Api.class);
+        Call<CommanResponse> call =api.getFcm("fcm_tokenadmin",token);
+        call.enqueue(new Callback<CommanResponse>() {
+            @Override
+            public void onResponse(Call<CommanResponse> call, Response<CommanResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<CommanResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 
