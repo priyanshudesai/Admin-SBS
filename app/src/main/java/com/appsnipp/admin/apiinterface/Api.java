@@ -282,8 +282,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("fcm_insert.php")
     Call<CommanResponse> getFcm(
-            @Field("fcm_tokenadmin") String fcm_tokenadmin,
-            @Field("fcm_token") String fcm_token
+            @Field("fcm_token") String fcm_token,
+            @Field("table") String table
     );
 
 
