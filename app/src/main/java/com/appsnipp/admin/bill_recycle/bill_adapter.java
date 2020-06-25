@@ -60,7 +60,7 @@ public class bill_adapter extends RecyclerView.Adapter<bill_adapter.ViewHolder>{
         viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                EditText spnt_name=(EditText) mydialog.findViewById(R.id.spnt_name);
+                    EditText spnt_name=(EditText) mydialog.findViewById(R.id.spnt_name);
                 EditText spnt_amt=(EditText) mydialog.findViewById(R.id.spnt_amt);
 
                 String id=""+bill_data.get(viewHolder.getAdapterPosition()).getId();

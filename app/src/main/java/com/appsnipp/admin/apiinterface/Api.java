@@ -31,7 +31,7 @@ public interface Api {
     @POST("RegistrationControllerJson.php")
     Call<CommanResponse> createUser(
 
-            @Field("loginRegistration") String loginRegistration,
+            @Field("loginRegistrationadmin") String loginRegistrationadmin,
             @Field("fname") String fname,
             @Field("lname") String lname,
             @Field("roletype") String roletype,
@@ -46,7 +46,7 @@ public interface Api {
     @POST("loginapi.php")
     Call<loginresponce> login(
 
-            @Field("loginmember") String loginmember,
+            @Field("loginadmin") String loginadmin,
             @Field("mobno") String mobno,
             @Field("password") String password
     );
